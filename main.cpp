@@ -49,71 +49,100 @@ Create a branch named Part1
  
  Send me the the link to your repl.it in a DM on Slack
 
- Wait for my code review.
+ Wait for my code review...
  */
 
 #include <iostream>
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    float value;
+    const char* name;
+    
+    T (float v, const char *aCharacter) :
+        value (v),
+        name (aCharacter)//2
+    { }
 };
 
-struct <#structName1#>                                //4
+struct Operation                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b)//5
     {
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
-        return nullptr;
+        return a;
     }
+    // not sure why compiler complains when this struct has default constructor?
+    //Operation();  
 };
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float var1 { 0 }, var2 { 0 };
+    
+    U(float a) : var1 (a) { }
+    
+    U();
+    
+    float product(float* inputValue)      //12
     {
-        
+        std::cout << "\n(non-static) U's var1 value: " << this->var1 << std::endl;
+        this->var1 = *inputValue;
+        std::cout << "\n(non-static) U's var1 updated value: " << this->var1 << std::endl;
+        std::cout << "Reducing magnitude.. \n";
+        while( std::abs (static_cast <long> (this->var2 - this->var1)) > 0.001f )
+        {
+            /*
+             write something that makes the distance between that->name2 and that->name1 get smaller
+             */
+            this->var2 += 0.5f;
+            std::cout << this->var2 << ", ";
+
+        }
+        std::cout << "\n(non-static) U's var2 updated value: " << this->var2 << std::endl;
+        return this->var2 * this->var1;
     }
 };
 
-struct <#structname2#>
+struct StaticTransform
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+    static float product(U* that, float* inputValue )        //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        std::cout << "\nU's var1 value: " << that->var1 << std::endl;
+        that->var1 = *inputValue;
+        std::cout << "\nU's var1 updated value: " << that->var1 << std::endl;
+        std::cout << "Reducing magnitude.. \n";
+        while( std::abs (static_cast <long> (that->var2 - that->var1)) > 0.001f )
         {
             /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that-><#name2#> += ;
+             write something that makes the distance between that->name2 and that->name1 get smaller
+             */          
+            that->var2 += 0.5f;
+            std::cout << that->var2 << ", ";
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        std::cout << "\nU's var2 updated value: " << that->var2 << std::endl;
+        return (that->var2 * that->var1);
     }
 };
         
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+
+    T var1( 0.1f , "a" );                                             //6
+    T var2( 0.5f , "b");                                             //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    Operation f;                                            //7
+    T* smaller = f.compare( &var1, &var2 );                              //8
+    std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; //9
     
-    U <#name3#>;
-    float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U user3 ( -60.0f  );
+    float updatedValue = 30.0f;
+    std::cout << StaticTransform::product( &user3 , &updatedValue ) << " is the result of StaticTransform func user3's multiplied values." << std::endl;                  //11
+    
+    U user4 ( -60.0f  );
+    std::cout << user4.product( &updatedValue ) << " is the result of Non-Static member func user4's multiplied values. " << std::endl;
 }
 
         
