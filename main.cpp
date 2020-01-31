@@ -84,25 +84,25 @@ struct U
     
     U(float a) : var1 (a) { }
     
-    U();
-    
     float product( float* inputValue ) 
     {
-        std::cout << "\n(non-static) U's var1 value: " << this->var1 << std::endl;
-        if (inputValue != nullptr) { this->var1 = *inputValue;}
-        std::cout << "\n(non-static) U's var1 updated value: " << this->var1 << std::endl;
-        std::cout << "Reducing magnitude.. \n";
-        while( std::abs (static_cast <long> (this->var2 - this->var1)) > 0.001f )
-        {
-            /*
-             write something that makes the distance between that->name2 and that->name1 get smaller
-             */
-            this->var2 += 0.5f;
-            std::cout << this->var2 << ", ";
-
+        std::cout << "U's var1 value: " << this->var1 << std::endl;
+        if (inputValue != nullptr) 
+        { 
+            this->var1 = *inputValue;
+            std::cout << "U's var1 updated value: " << this->var1 << std::endl;
+            std::cout << "Reducing magnitude.. \n";
+            while( std::abs (static_cast <long> (this->var2 - this->var1)) > 0.001f )
+            {
+                /*
+                write something that makes the distance between that->name2 and that->name1 get smaller
+                */
+                this->var2 += 0.5f;
+                std::cout << this->var2 << ", ";
+            }
+            std::cout << "U's var2 updated value: " << this->var2 << std::endl;
+            return this->var2 * this->var1;
         }
-        std::cout << "\n(non-static) U's var2 updated value: " << this->var2 << std::endl;
-        return this->var2 * this->var1;
     }
 };
 
@@ -124,30 +124,28 @@ struct StaticTransform
                     that->var2 += 0.5f;
                     std::cout << that->var2 << ", ";
                 }
-        std::cout << "\nU's var2 updated value: " << that->var2 << std::endl;
-        return (that->var2 * that->var1);
+            std::cout << "\nU's var2 updated value: " << that->var2 << std::endl;
+            return (that->var2 * that->var1);
         }
-        return *inputValue; 
     }
 };
         
 int main()
 {
-
     T var1( 0.1f , "a" );                                             
     T var2( 0.5f , "b");  
     
     Operation f;                                      
     T* smaller = f.compare( &var1, &var2 );  
     if (smaller != nullptr) std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; 
-    else std::cout << "Something is wrong with the compare function..." << std::endl; 
     
     U user3 ( -60.0f  );
     float updatedValue = 30.0f;
-    std::cout << StaticTransform::product( &user3 , &updatedValue ) << " is the result of StaticTransform func user3's multiplied values." << std::endl;   
+
+    std::cout << "StaticTransform function user3's multiplied values: " << StaticTransform::product( &user3 , &updatedValue ) << std::endl; 
     
     U user4 ( -60.0f  );
-    std::cout << user4.product( &updatedValue ) << " is the result of Non-Static member func user4's multiplied values. " << std::endl;
+    std::cout << "Product function user4's multiplied values: " << user4.product( &updatedValue ) << std::endl;
 }
 
  
