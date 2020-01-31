@@ -57,21 +57,24 @@
 struct T
 {
     float value;
-    const char* name; FIXME use std::string 
+    const std::string name; 
     
-    T (float v, const char *aCharacter) :
+    T (float v, const char* aCharacter) :
         value (v),
-        name (aCharacter)//2
+        name (aCharacter)
     { }
 };
 
-struct Operation                                //4
+struct Operation 
 {
-    T* compare(T* a, T* b)//5
-    {   FIXME what do we always do before we use pointers?
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
-        return a; FIXME this returned nullptr before.  Change it back
+    T* compare(T* a, T* b)
+    {   
+        if (a != nullptr && b != nullptr) 
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        }
+        return nullptr; 
     } 
 };
 
@@ -83,10 +86,10 @@ struct U
     
     U();
     
-    float product(float* inputValue)      //12
+    float product( float* inputValue ) 
     {
         std::cout << "\n(non-static) U's var1 value: " << this->var1 << std::endl;
-        this->var1 = *inputValue; FIXME what do we always do before we use pointers?
+        if (inputValue != nullptr) { this->var1 = *inputValue;}
         std::cout << "\n(non-static) U's var1 updated value: " << this->var1 << std::endl;
         std::cout << "Reducing magnitude.. \n";
         while( std::abs (static_cast <long> (this->var2 - this->var1)) > 0.001f )
@@ -105,50 +108,46 @@ struct U
 
 struct StaticTransform
 {
-    static float product(U* that, float* inputValue )        //10
+    static float product(U* that, float* inputValue ) 
     {
-        FIXME what do we always do before we use pointers?
-        std::cout << "\nU's var1 value: " << that->var1 << std::endl;
-        that->var1 = *inputValue; 
-        std::cout << "\nU's var1 updated value: " << that->var1 << std::endl;
-        std::cout << "Reducing magnitude.. \n";
-        while( std::abs (static_cast <long> (that->var2 - that->var1)) > 0.001f )
+        if ( inputValue != nullptr && that != nullptr)
         {
-            /*
-             write something that makes the distance between that->name2 and that->name1 get smaller
-             */          
-            that->var2 += 0.5f;
-            std::cout << that->var2 << ", ";
-        }
+            std::cout << "\nU's var1 value: " << that->var1 << std::endl;
+            that->var1 = *inputValue; 
+            std::cout << "\nU's var1 updated value: " << that->var1 << std::endl;
+            std::cout << "Reducing magnitude.. \n";
+            while( std::abs (static_cast <long> (that->var2 - that->var1)) > 0.001f )
+                {
+                    /*
+                    write something that makes the distance between that->name2 and that->name1 get smaller
+                     */          
+                    that->var2 += 0.5f;
+                    std::cout << that->var2 << ", ";
+                }
         std::cout << "\nU's var2 updated value: " << that->var2 << std::endl;
         return (that->var2 * that->var1);
+        }
+        return *inputValue; 
     }
 };
         
 int main()
 {
 
-    T var1( 0.1f , "a" );                                             //6
-    T var2( 0.5f , "b");                                             //6
+    T var1( 0.1f , "a" );                                             
+    T var2( 0.5f , "b");  
     
-    Operation f;                                            //7
-    T* smaller = f.compare( &var1, &var2 );                              //8
-    FIXME what do we always do before we use pointers?
-    std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; //9
-    
+    Operation f;                                      
+    T* smaller = f.compare( &var1, &var2 );  
+    if (smaller != nullptr) std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; 
+    else std::cout << "Something is wrong with the compare function..." << std::endl; 
     
     U user3 ( -60.0f  );
     float updatedValue = 30.0f;
-    std::cout << StaticTransform::product( &user3 , &updatedValue ) << " is the result of StaticTransform func user3's multiplied values." << std::endl;                  //11
+    std::cout << StaticTransform::product( &user3 , &updatedValue ) << " is the result of StaticTransform func user3's multiplied values." << std::endl;   
     
     U user4 ( -60.0f  );
     std::cout << user4.product( &updatedValue ) << " is the result of Non-Static member func user4's multiplied values. " << std::endl;
 }
 
-        
-        
-        
-        
-        
-        
-        
+ 
