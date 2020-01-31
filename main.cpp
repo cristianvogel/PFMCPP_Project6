@@ -2,7 +2,7 @@
  Project 6: Part 1 / 2
  Video: Chapter 3 Part 2
 
-Create a branch named Part1
+ Create a branch named Part1
 
  Pointers
 
@@ -57,7 +57,7 @@ Create a branch named Part1
 struct T
 {
     float value;
-    const char* name;
+    const char* name; FIXME use std::string 
     
     T (float v, const char *aCharacter) :
         value (v),
@@ -68,13 +68,11 @@ struct T
 struct Operation                                //4
 {
     T* compare(T* a, T* b)//5
-    {
+    {   FIXME what do we always do before we use pointers?
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
-        return a;
-    }
-    // not sure why compiler complains when this struct has default constructor?
-    //Operation();  
+        return a; FIXME this returned nullptr before.  Change it back
+    } 
 };
 
 struct U
@@ -88,7 +86,7 @@ struct U
     float product(float* inputValue)      //12
     {
         std::cout << "\n(non-static) U's var1 value: " << this->var1 << std::endl;
-        this->var1 = *inputValue;
+        this->var1 = *inputValue; FIXME what do we always do before we use pointers?
         std::cout << "\n(non-static) U's var1 updated value: " << this->var1 << std::endl;
         std::cout << "Reducing magnitude.. \n";
         while( std::abs (static_cast <long> (this->var2 - this->var1)) > 0.001f )
@@ -109,8 +107,9 @@ struct StaticTransform
 {
     static float product(U* that, float* inputValue )        //10
     {
+        FIXME what do we always do before we use pointers?
         std::cout << "\nU's var1 value: " << that->var1 << std::endl;
-        that->var1 = *inputValue;
+        that->var1 = *inputValue; 
         std::cout << "\nU's var1 updated value: " << that->var1 << std::endl;
         std::cout << "Reducing magnitude.. \n";
         while( std::abs (static_cast <long> (that->var2 - that->var1)) > 0.001f )
@@ -134,6 +133,7 @@ int main()
     
     Operation f;                                            //7
     T* smaller = f.compare( &var1, &var2 );                              //8
+    FIXME what do we always do before we use pointers?
     std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; //9
     
     
