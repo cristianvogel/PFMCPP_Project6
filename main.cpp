@@ -100,9 +100,10 @@ struct U
                 this->var2 += 0.5f;
                 std::cout << this->var2 << ", ";
             }
-            std::cout << "U's var2 updated value: " << this->var2 << std::endl;
+            std::cout << "\n U's var2 updated value: " << this->var2 << std::endl;
             return this->var2 * this->var1;
         }
+    return {};
     }
 };
 
@@ -127,6 +128,7 @@ struct StaticTransform
             std::cout << "\nU's var2 updated value: " << that->var2 << std::endl;
             return (that->var2 * that->var1);
         }
+        return {};
     }
 };
         
