@@ -60,18 +60,18 @@ struct T
     
     T(float v, const char* label)     //1
     {
-        value = v;                   //2
-        if (label != nullptr)
+        value = v;  FIXME use member initializer list                 //2
+        if (label != nullptr) FIXME you can initialize std::string with const char*. use the member initializer list
         {
             name = *label;        //3
-        };
+        }
     }
 };
 
 struct Compare                                //4
 {
     T* compare(T* a, T* b) //5
-    {
+    { FIXME what do we always do before using pointers? 
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
         return nullptr;
@@ -83,7 +83,7 @@ struct U
     float paramU1 { 0 }, paramU2 { 0 };
     float shiftAndProduct(float* valueIn)      //12
     {
-        if ( ( valueIn != nullptr ) )
+        if( valueIn != nullptr )
         {
             std::cout << "\tU's paramU1 value: " << this->paramU1 << std::endl;
             this->paramU1 = *valueIn;
@@ -94,7 +94,6 @@ struct U
                  write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
                  */
                 this->paramU2 += 1.f;
-                std::cout << "\t" << this->paramU2 << "..";
             }
             std::cout << "\n\tU's paramU2 updated value: " << this->paramU2 << std::endl;
             return this->paramU2 * this->paramU1;
@@ -107,7 +106,7 @@ struct Transform
 {
     static float shiftAndProduct(U* that, float* valueIn )        //10
     {
-        if ( (that != nullptr) && ( valueIn != nullptr) )
+        if(that != nullptr && valueIn != nullptr)
         {
        		std::cout << "\tU's paramU1 value: " << that->paramU1 << std::endl;
         	that->paramU1 = *valueIn;
@@ -118,10 +117,9 @@ struct Transform
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
             	that->paramU2 += 1.f;
-               std::cout << "\t" << that->paramU2 << "..";
         	}
-        std::cout << "\n\tU's paramU2 updated value: " << that->paramU2 << std::endl;
-        return that->paramU2 * that->paramU1;
+            std::cout << "\n\tU's paramU2 updated value: " << that->paramU2 << std::endl;
+            return that->paramU2 * that->paramU1;
         }
         return 0.0f;
     }
@@ -135,9 +133,9 @@ int main()
     Compare f;                                            //7
     auto* smaller = f.compare( &varA, &varB );
     if (smaller != nullptr)
-        {                               //8
-            std::cout << "\n\nthe smaller one is << " << smaller->name << "\n" << std::endl; //9
-        }
+    {                               //8
+        std::cout << "\n\nthe smaller one is << " << smaller->name << "\n" << std::endl; //9
+    }
     U varU3;
     float updatedValue = 5.0f;
     std::cout << "Transform::shiftAndProduct varU3's multiplied values: \n" << Transform::shiftAndProduct( &varU3, &updatedValue ) << "\n\n";
