@@ -58,23 +58,20 @@ struct T
     float value;
     std::string name;
     
-    T(float v, const char* label)     //1
-    {
-        value = v;  FIXME use member initializer list                 //2
-        if (label != nullptr) FIXME you can initialize std::string with const char*. use the member initializer list
-        {
-            name = *label;        //3
-        }
-    }
+    T(float v, const char* label) : value(v), name (label) 
+    { }
 };
 
 struct Compare                                //4
 {
-    T* compare(T* a, T* b) //5
-    { FIXME what do we always do before using pointers? 
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
-        return nullptr;
+    T* compare(T* a, T* b) 
+    {
+        if ( (a != nullptr) && (b != nullptr) )
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        } 
+    return nullptr;
     }
 };
 
@@ -134,12 +131,12 @@ int main()
     auto* smaller = f.compare( &varA, &varB );
     if (smaller != nullptr)
     {                               //8
-        std::cout << "\n\nthe smaller one is << " << smaller->name << "\n" << std::endl; //9
+        std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; //9
     }
     U varU3;
     float updatedValue = 5.0f;
-    std::cout << "Transform::shiftAndProduct varU3's multiplied values: \n" << Transform::shiftAndProduct( &varU3, &updatedValue ) << "\n\n";
+    std::cout << "Transform::shiftAndProduct varU3's multiplied values: \n" << Transform::shiftAndProduct( &varU3, &updatedValue ) << std::endl;
     U varU4;
-    std::cout << "[member func] varU4's multiplied values: \n" << varU4.shiftAndProduct( &updatedValue ) << "\n\n";
+    std::cout << "U::shiftAndProduct varU4's multiplied values: \n" << varU4.shiftAndProduct( &updatedValue ) << std::endl;
     return 0;
 }
