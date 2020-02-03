@@ -71,7 +71,7 @@ struct Compare                                //4
             if( a->value < b->value ) return a;
             if( a->value > b->value ) return b;
         } 
-    return nullptr;
+        return nullptr;
     }
 };
 
@@ -133,9 +133,11 @@ int main()
     {                               //8
         std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; //9
     }
+    
     U varU3;
     float updatedValue = 5.0f;
     std::cout << "Transform::shiftAndProduct varU3's multiplied values: \n" << Transform::shiftAndProduct( &varU3, &updatedValue ) << std::endl;
+
     U varU4;
     std::cout << "U::shiftAndProduct varU4's multiplied values: \n" << varU4.shiftAndProduct( &updatedValue ) << std::endl;
     return 0;
