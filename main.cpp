@@ -35,11 +35,11 @@ struct T
 
 struct Comparator                                //4
 {
-    T& compare(T& a, T& b) FIXME re-read instruction #1
-    {
-            if( a.value < b.value ) return a;
-            if( a.value > b.value ) return b;
-        return a;
+    const T* compare(const T& a, const T& b) 
+    {   
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
+        return nullptr;
     }
 };
 
@@ -84,13 +84,16 @@ struct Transform
         
 int main()
 {
-    T varA( 10.0f, "A" );                                             //6
-    T varB( 100.0f, "B" );                                             //6
+    const T varA( 100.0f, "A" );                                             //6
+    const T varB( 10.0f, "B" );                                             //6
             
     Comparator f;                                            //7
-    T& smaller = f.compare( varA, varB );
-    std::cout << "\n\nthe smaller one is << " << smaller.name << std::endl; //9
-    
+    const T* smaller = f.compare( varA, varB );
+    if (smaller != nullptr) 
+    {
+        std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; //9
+    }
+
     U varU3;
     float updatedValue = 3.0f;
     std::cout << "Transform::shiftAndProduct varU3's multiplied values: \n" << Transform::shiftAndProduct( varU3, updatedValue ) << std::endl;
