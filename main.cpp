@@ -35,7 +35,7 @@ struct T
 
 struct Comparator                                //4
 {
-    T& compare(T& a, T& b) 
+    T& compare(T& a, T& b) FIXME re-read instruction #1
     {
             if( a.value < b.value ) return a;
             if( a.value > b.value ) return b;
