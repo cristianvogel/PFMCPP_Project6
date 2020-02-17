@@ -84,11 +84,12 @@ struct Transform
         
 int main()
 {
-    const T varA( 100.0f, "A" );                                             //6
-    const T varB( 10.0f, "B" );                                             //6
+    T varA( 100.0f, "A" );                                             //6
+    T varB( 10.0f, "B" );                                             //6
             
     Comparator f;                                            //7
     const T* smaller = f.compare( varA, varB );
+    
     if (smaller != nullptr) 
     {
         std::cout << "\n\nthe smaller one is << " << smaller->name << std::endl; //9
